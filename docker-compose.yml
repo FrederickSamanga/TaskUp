@@ -1,16 +1,18 @@
 version: '3.8'
+
 services:
   db:
     image: postgres:latest
     container_name: postgres-container
     environment:
-      POSTGRES_USER: fredericksamanga   
-      POSTGRES_PASSWORD: samanga124  
-      POSTGRES_DB: taskup_db        
+      POSTGRES_USER: fredericksamanga
+      POSTGRES_PASSWORD: samanga124
+      POSTGRES_DB: taskup_db
     ports:
-      - "5432:5432"                   
+      - "5432:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data  # Persist database data across container restarts
+      - postgres-data:/var/lib/postgresql/data
 
 volumes:
   postgres-data:
+    driver: local
