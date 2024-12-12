@@ -5,8 +5,9 @@ import java.time.LocalDate;
 
 import jakarta.validation.constraints.*;
 
-//import javax.persistence.*;
-import java.time.LocalDate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Task {
@@ -26,6 +27,10 @@ public class Task {
     @Past(message = "Due date cannot be in the future")
     private LocalDate dueDate;
 
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+
     @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;
 
@@ -37,14 +42,6 @@ public class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.taskStatus = taskStatus;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTitle() {

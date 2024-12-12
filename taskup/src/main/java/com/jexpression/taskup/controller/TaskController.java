@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -67,4 +68,11 @@ public class TaskController {
     public ResponseEntity<List<Task>> getTasksByStatus(@PathVariable TaskStatus status) {
         return ResponseEntity.ok(taskService.getTasksByStatus(status));
     }
+
+    @GetMapping("/tasks/{id}")
+    public ResponseEntity<Optional<Task>> getTask(@PathVariable Long id) {
+        Optional<Task> task = taskService.getTaskById(id);
+        return ResponseEntity.ok(task);
+    }
+
 }
