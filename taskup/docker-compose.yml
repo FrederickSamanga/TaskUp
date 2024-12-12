@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: taskup-postgres
+    environment:
+      POSTGRES_USER: fredericksamanga
+      POSTGRES_PASSWORD: samanga124
+      POSTGRES_DB: taskup_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

@@ -3,6 +3,9 @@ package com.jexpression.taskup.controller;
 import com.jexpression.taskup.model.Task;
 import com.jexpression.taskup.model.TaskStatus;
 import com.jexpression.taskup.service.TaskService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,17 @@ public class TaskController {
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
+
+    @GetMapping("/tasks")
+    public ResponseEntity<Page<Task>> getTasks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id,asc") String[] sort
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(sort[1].equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sort[0]));
+        return ResponseEntity.ok(taskService.getTasks(pageRequest));
+    }
+
 
     @PostMapping
     public ResponseEntity<Task> createTask(@Valid @RequestBody Task task) {

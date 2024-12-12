@@ -4,6 +4,8 @@ import com.jexpression.taskup.model.TaskStatus;
 import com.jexpression.taskup.repository.TaskRepository;
 import com.jexpression.taskup.service.TaskService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -50,5 +52,10 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public List<Task> getTasksByStatus(TaskStatus status) {
         return taskRepository.findByTaskStatus(status);
+    }
+
+    @Override
+    public Page<Task> getTasks(PageRequest pageRequest) {
+        return null;
     }
 }
