@@ -2,6 +2,7 @@ package com.jexpression.taskup.controller;
 
 import com.jexpression.taskup.model.Comment;
 import com.jexpression.taskup.service.CommentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class CommentController {
+
+    private final CommentService commentService;
+
     @Autowired
-    private CommentService commentService;
+    public CommentController(CommentService commentService) {
+        this.commentService = commentService;
+    }
 
     // Get comments for a specific task
     @GetMapping("/tasks/{taskId}/comments")
@@ -24,7 +30,7 @@ public class CommentController {
 
     // Add a new comment to a task
     @PostMapping("/tasks/{taskId}/comments")
-    public ResponseEntity<Comment> addComment(@PathVariable Long taskId, @RequestBody Comment comment) {
+    public ResponseEntity<Comment> addComment(@PathVariable Long taskId,@Valid @RequestBody Comment comment) {
         Comment createdComment = commentService.addComment(taskId, comment);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
     }
@@ -35,4 +41,5 @@ public class CommentController {
         commentService.deleteComment(commentId);
         return ResponseEntity.noContent().build();
     }
+
 }

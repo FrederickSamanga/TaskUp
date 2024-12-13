@@ -15,4 +15,5 @@ public interface TaskService {
     void deleteTask(Long id);
     List<Task> getTasksByStatus(TaskStatus status);
     Page<Task> getTasks(PageRequest pageRequest);
+    List<Task> getTasksByUsername(String username);
 }

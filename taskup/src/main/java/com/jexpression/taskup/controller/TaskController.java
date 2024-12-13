@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,17 @@ public class TaskController {
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
+    }
+
+    @GetMapping("/api/tasks/user")
+    public ResponseEntity<List<Task>> getUserTasks(Authentication authentication) {
+        String username = authentication.getName();
+        List<Task> tasks = taskService.getTasksByUsername(username);
+        return ResponseEntity.ok(tasks);
+    }
+    @GetMapping("/api/tasks")
+    public ResponseEntity<List<Task>> getAllTasks() {
+        return ResponseEntity.ok(taskService.getAllTasks());
     }
 
     @GetMapping("/tasks")
@@ -48,10 +60,7 @@ public class TaskController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping
-    public ResponseEntity<List<Task>> getAllTasks() {
-        return ResponseEntity.ok(taskService.getAllTasks());
-    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id,@Valid @RequestBody Task task) {
