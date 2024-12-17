@@ -1,8 +1,10 @@
 package com.jexpression.taskup.repository;
 import com.jexpression.taskup.model.Task;
 import com.jexpression.taskup.model.TaskStatus;
-import com.jexpression.taskup.model.User;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.domain.Page;
@@ -13,12 +15,11 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    List<Task> findByTaskStatus(TaskStatus status);
-    Page<Task> findAll(Pageable pageable);
+    List<Task> findByTaskStatus(@Nullable TaskStatus status);
 
-    List<Task> findByUser(User user);
-
-    // Custom query methods
+    @Override
+    @NonNull
+    Page<Task> findAll(@Nonnull Pageable pageable);
 }
 
 

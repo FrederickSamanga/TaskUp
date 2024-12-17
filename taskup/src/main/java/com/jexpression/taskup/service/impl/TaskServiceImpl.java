@@ -1,9 +1,7 @@
 package com.jexpression.taskup.service.impl;
 import com.jexpression.taskup.model.Task;
 import com.jexpression.taskup.model.TaskStatus;
-import com.jexpression.taskup.model.User;
 import com.jexpression.taskup.repository.TaskRepository;
-import com.jexpression.taskup.repository.UserRepository;
 import com.jexpression.taskup.service.TaskService;
 
 import org.springframework.data.domain.Page;
@@ -15,11 +13,9 @@ import java.util.Optional;
 @Service
 public class TaskServiceImpl implements TaskService{
     private final TaskRepository taskRepository;
-    UserRepository userRepository;
 
-    public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository) {
+    public TaskServiceImpl(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -61,12 +57,5 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public Page<Task> getTasks(PageRequest pageRequest) {
         return null;
-    }
-    @Override
-    public List<Task> getTasksByUsername(String username) {
-
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found: " + username));
-        return taskRepository.findByUser(user);
     }
 }

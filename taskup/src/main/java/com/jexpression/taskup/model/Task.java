@@ -5,36 +5,13 @@ import java.time.LocalDate;
 
 import jakarta.validation.constraints.*;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
+@Table(name = "tasks")
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
 
     @Size(max = 100, message = "Title cannot exceed 100 characters")
     @NotNull(message = "Title cannot be null")
@@ -46,9 +23,6 @@ public class Task {
     @FutureOrPresent(message = "Due date must be today or in the future")
     @Past(message = "Due date cannot be in the future")
     private LocalDate dueDate;
-
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
 
 
     @Enumerated(EnumType.STRING)
