@@ -12,11 +12,14 @@ import java.util.List;
 
 @Service
 public class CommentService {
-    @Autowired
-    private CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
+    private final TaskRepository taskRepository;
 
     @Autowired
-    private TaskRepository taskRepository;
+    public CommentService(CommentRepository commentRepository, TaskRepository taskRepository) {
+        this.commentRepository = commentRepository;
+        this.taskRepository = taskRepository;
+    }
 
     public List<Comment> getCommentsByTaskId(Long taskId) {
         return commentRepository.findByTaskId(taskId);
